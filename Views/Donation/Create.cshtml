@@ -1,0 +1,36 @@
+@model PativerMVC.Models.Donation
+
+@{
+    ViewData["Title"] = "Bağış Yap";
+}
+
+<h2>Bağış Yap</h2>
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label asp-for="DonorName" class="control-label"></label>
+        <input asp-for="DonorName" class="form-control" />
+        <span asp-validation-for="DonorName" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Email" class="control-label"></label>
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Amount" class="control-label"></label>
+        <input asp-for="Amount" class="form-control" />
+        <span asp-validation-for="Amount" class="text-danger"></span>
+    </div>
+
+    @if (ViewBag.CampaignId != null)
+    {
+        <input type="hidden" asp-for="CampaignId" value="@ViewBag.CampaignId" />
+    }
+
+    <button type="submit" class="btn btn-primary">Bağış Yap</button>
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

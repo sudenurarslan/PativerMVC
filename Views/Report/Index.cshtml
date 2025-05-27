@@ -1,0 +1,30 @@
+@model List<PativerMVC.Models.Report>
+
+@{
+    ViewData["Title"] = "İhbarlar";
+}
+
+<h2>İhbar Edilen Hayvanlar</h2>
+
+<div class="row">
+    @foreach (var report in Model)
+    {
+        <div class="col-md-4 mb-4">
+            <div class="card shadow-sm">
+                @if (!string.IsNullOrEmpty(report.ImagePath))
+                {
+                    <img src="@report.ImagePath" class="card-img-top" alt="Hayvan Resmi" />
+                }
+                <div class="card-body">
+                    <h5 class="card-title">@report.AnimalType</h5>
+                    <p class="card-text">
+                        <strong>Konum:</strong> @report.Location<br />
+                        <strong>Açıklama:</strong> @report.Description<br />
+                        <strong>Tarih:</strong> @report.ReportDate.ToString("dd.MM.yyyy HH:mm")
+                    </p>
+                    <a asp-controller="Adoption" asp-action="Create" asp-route-animalId="@report.Id" class="btn btn-sm btn-success">Sahiplen</a>
+                </div>
+            </div>
+        </div>
+    }
+</div>

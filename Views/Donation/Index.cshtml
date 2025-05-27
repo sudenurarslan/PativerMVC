@@ -1,0 +1,30 @@
+@model List<PativerMVC.Models.Donation>
+
+@{
+    ViewData["Title"] = "Bağışlar";
+}
+
+<h2>Bağış Listesi</h2>
+<p>Toplam Bağış Miktarı: <strong>@ViewBag.Total TL</strong></p>
+
+<table class="table table-bordered">
+    <thead>
+    <tr>
+        <th>Ad</th>
+        <th>Email</th>
+        <th>Tutar</th>
+        <th>Tarih</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@item.DonorName</td>
+            <td>@item.Email</td>
+            <td>@item.Amount TL</td>
+            <td>@item.DonationDate.ToString("dd.MM.yyyy HH:mm")</td>
+        </tr>
+    }
+    </tbody>
+</table>

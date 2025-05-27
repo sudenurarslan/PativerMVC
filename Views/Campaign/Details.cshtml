@@ -1,0 +1,10 @@
+@model PativerMVC.Models.Campaign
+
+@{
+    ViewData["Title"] = "Kampanya Detayı";
+}
+
+<h2>@Model.Title</h2>
+<img src="@Model.ImagePath" class="img-fluid" alt="@Model.Title" />
+<p>@Model.Description</p>
+<a asp-controller="Donation" asp-action="Create" asp-route-campaignId="@Model.Id" class="btn btn-primary">Bu kampanyaya Bağış Yap</a>

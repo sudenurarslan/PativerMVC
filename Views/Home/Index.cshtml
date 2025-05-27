@@ -1,0 +1,106 @@
+﻿@model PativerMVC.Models.HomeViewModel
+
+
+@{
+    ViewData["Title"] = "Sokak Hayvanlarına Yardım Platformu";
+}
+
+<div class="text-center mb-5">
+    <h1 class="display-4">Pativer'e Hoş Geldiniz</h1>
+    <p class="lead">Sokak hayvanlarına yardım etmek için oluşturulmuş bir platform</p>
+</div>
+
+<div class="row mb-5">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-primary text-white">
+                <h3>Son Eklenen Hayvanlar</h3>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    @foreach (var animal in Model.RecentAnimals)
+                    {
+                        <div class="col-md-4 mb-3">
+                            <div class="card">
+                                <img src="@animal.ImagePath" class="card-img-top" alt="@animal.Name">
+                                <div class="card-body">
+                                    <h5 class="card-title">@animal.Name</h5>
+                                    <p class="card-text">@animal.Breed - @animal.Age yaşında</p>
+                                    <a href="@Url.Action("Details", "Animal", new { id = animal.Id })" class="btn btn-primary">Detaylar</a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <a href="@Url.Action("Index", "Animal")" class="btn btn-outline-primary mt-3">Tüm Hayvanları Gör</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header bg-success text-white">
+                <h3>Aktif Kampanyalar</h3>
+            </div>
+            <div class="card-body">
+                @foreach (var campaign in Model.ActiveCampaigns)
+                {
+                    <div class="mb-3">
+                        <h5>@campaign.Title</h5>
+                        <div class="progress mb-2">
+                            <div class="progress-bar" role="progressbar" 
+                                 style="width: @((campaign.CollectedAmount / campaign.TargetAmount * 100).ToString("0"))%;" 
+                                 aria-valuenow="@campaign.CollectedAmount" 
+                                 aria-valuemin="0" 
+                                 aria-valuemax="@campaign.TargetAmount">
+                                @((campaign.CollectedAmount / campaign.TargetAmount * 100).ToString("0"))%
+                            </div>
+                        </div>
+                        <p>Toplanan: @campaign.CollectedAmount.ToString("C") / Hedef: @campaign.TargetAmount.ToString("C")</p>
+                        <a asp-controller="Donation"
+                           asp-action="Create"
+                           asp-route-campaignId="@campaign.Id"
+                           class="btn btn-sm btn-success">
+                            Bağış Yap
+                        </a>
+
+                    </div>
+                }
+                <a href="@Url.Action("Index", "Campaign")" class="btn btn-outline-success mt-3">Tüm Kampanyaları Gör</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            <div class="card-body text-center">
+                <i class="bi bi-heart-fill text-danger" style="font-size: 2rem;"></i>
+                <h3 class="card-title">Sahiplendirme</h3>
+                <p class="card-text">Sokakta bulunan hayvanları sahiplenebilir veya sahiplendirebilirsiniz.</p>
+                <a href="@Url.Action("Index", "Animal")" class="btn btn-primary">Hayvanları Gör</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            <div class="card-body text-center">
+                <i class="bi bi-exclamation-triangle-fill text-warning" style="font-size: 2rem;"></i>
+                <h3 class="card-title">İhbar</h3>
+                <p class="card-text">Yardıma ihtiyacı olan hayvanları bize bildirin.</p>
+                <a href="@Url.Action("Create", "Report")" class="btn btn-warning">İhbar Ver</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div class="card h-100">
+            <div class="card-body text-center">
+                <i class="bi bi-cash-coin text-success" style="font-size: 2rem;"></i>
+                <h3 class="card-title">Bağış</h3>
+                <p class="card-text">Kampanyalarımıza destek olarak hayvanlara yardım edin.</p>
+                <a asp-controller="Donation" asp-action="Create" class="btn btn-primary">Bağış Yap</a>
+
+            </div>
+        </div>
+    </div>
+</div>

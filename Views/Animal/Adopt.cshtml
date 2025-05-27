@@ -1,0 +1,30 @@
+@model PativerMVC.Models.AdoptionRequest
+
+@{
+    ViewData["Title"] = "Sahiplen";
+}
+
+<h2>Hayvan Sahiplenme Formu</h2>
+
+<form asp-action="Adopt" asp-route-id="@Model.AnimalId" method="post">
+    <!-- Hayvan ID'sini gizli olarak gönder -->
+    <input type="hidden" asp-for="AnimalId" />
+
+    <div class="mb-3">
+        <label asp-for="FullName" class="form-label"></label>
+        <input asp-for="FullName" class="form-control" />
+        <span asp-validation-for="FullName" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Phone" class="form-label"></label>
+        <input asp-for="Phone" class="form-control" />
+        <span asp-validation-for="Phone" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Başvuruyu Gönder</button>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
