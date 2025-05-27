@@ -1,0 +1,85 @@
+DROP DATABASE IF EXISTS PativerDB;
+CREATE DATABASE PativerDB;
+USE PativerDB;
+
+
+CREATE TABLE Animals (
+    Id INT PRIMARY KEY AUTO_INCREMENT,
+    Name VARCHAR(100) NOT NULL,
+    Age INT,
+    Breed VARCHAR(100),
+    Description TEXT,
+    ImagePath VARCHAR(255),
+    IsAdopted BOOLEAN DEFAULT FALSE,
+    CreatedDate DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+-- İhbar Tablosu
+CREATE TABLE Reports (
+    Id INT PRIMARY KEY AUTO_INCREMENT,
+    AnimalType VARCHAR(100) NOT NULL,
+    Location VARCHAR(255) NOT NULL,
+    Description TEXT,
+    ImagePath VARCHAR(255),
+    ReportDate DATETIME DEFAULT CURRENT_TIMESTAMP,
+    IsResolved BOOLEAN DEFAULT FALSE
+);
+
+-- Bağış Kampanyaları
+CREATE TABLE Campaigns (
+    Id INT PRIMARY KEY AUTO_INCREMENT,
+    Title VARCHAR(255) NOT NULL,
+    Description TEXT,
+    TargetAmount DECIMAL(18,2) NOT NULL,
+    CollectedAmount DECIMAL(18,2) DEFAULT 0,
+    ImagePath VARCHAR(255),
+    StartDate DATETIME DEFAULT CURRENT_TIMESTAMP,
+    EndDate DATETIME
+);
+
+-- Gönüllüler
+CREATE TABLE Volunteers (
+    Id INT PRIMARY KEY AUTO_INCREMENT,
+    FullName VARCHAR(255) NOT NULL,
+    Phone VARCHAR(20) NOT NULL,
+    VolunteerType VARCHAR(100) NOT NULL,
+    RegistrationDate DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Sahiplenme Talepleri
+CREATE TABLE AdoptionRequests (
+    Id INT PRIMARY KEY AUTO_INCREMENT,
+    AnimalId INT,
+    FullName VARCHAR(255) NOT NULL,
+    Phone VARCHAR(20) NOT NULL,
+    RequestDate DATETIME DEFAULT CURRENT_TIMESTAMP,
+    IsApproved BOOLEAN DEFAULT FALSE,
+    FOREIGN KEY (AnimalId) REFERENCES Animals(Id)
+);
+CREATE TABLE donations (
+    Id INT AUTO_INCREMENT PRIMARY KEY,
+    DonorName VARCHAR(255) NOT NULL,
+    Email VARCHAR(255) NOT NULL,
+    Amount INT NOT NULL,
+    DonationDate DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+ALTER TABLE Reports CHANGE IsResolved IsAdopted BOOLEAN DEFAULT FALSE;
+DROP TABLE IF EXISTS Animals;
+
+ALTER TABLE Donations
+ADD COLUMN CampaignId INT NULL,
+ADD CONSTRAINT FK_Donations_Campaigns
+FOREIGN KEY (CampaignId) REFERENCES Campaigns(Id)
+ON DELETE SET NULL;
+
+ALTER TABLE Donations
+MODIFY COLUMN Amount DECIMAL(10,2);
+
+
+
+
+
+
+
+
